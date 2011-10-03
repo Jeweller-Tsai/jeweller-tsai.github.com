@@ -1,0 +1,253 @@
+---
+layout: post
+title: 测试
+---
+{% highlight irb %}
+a=1
+puts a
+{% endhighlight %}
+{% highlight css %}
+/* Forms.less
+ * Base styles for various input types, form layouts, and states
+ * ------------------------------------------------------------- */
+form {
+  margin-bottom: 18px;
+}
+fieldset {
+  margin-bottom: 18px;
+  padding-top: 18px;
+}
+fieldset legend {
+  display: block;
+  padding-left: 150px;
+  font-size: 19.5px;
+  line-height: 1;
+  color: #404040;
+  *padding: 0 0 5px 145px;
+  /* IE6-7 */
+
+  *line-height: 1.5;
+  /* IE6-7 */
+
+}
+{% endhighlight%}
+
+{% highlight ruby linenos %}
+# encoding: UTF-8
+class Question < ActiveRecord::Base
+  acts_as_api
+  include Api::Question
+
+  validates :title, :presence => true, :uniqueness => true
+  validates :key, :score, :presence => true
+  validates_numericality_of :score, :greater_than => 0,
+:less_than_or_equal_to => 50
+
+  has_many :answers
+  belongs_to :question_type
+  belongs_to :paper
+
+  delegate :type, :to => :question_type
+
+  scope :in_a_paper, lambda { |paper| where(:paper_id => paper) }
+  scope :same_type, lambda { |type| where(:question_type_id => type) }
+  scope :random, lambda { |type| same_type(type).shuffle![0..9] }
+
+  def type_of_multiple_choice_question?
+    type  == :multiple_choice
+  end
+
+  def type_of_true_false_question?
+    type  == :true_false
+  end
+end
+{% endhighlight %}
+
+&copy; 4 &lt; 5
+## 文章转载自[Jeweller Tsai的博客](http://loacalhost:4000/). ##
+#### 你好你好你好你好你好你好你好你好
+####### 你好你好
+<embed src="http://www.xiami.com/widget/0_1770236123/singlePlayer.swf" type="application/x-shockwave-flash" width="257" height="33" wmode="transparent"></embed>
+This is [an example][1] reference-style link.
+[1]: http://example.com/  "Optional Title Here"
+文章转载自[Jeweller Tsai的博客](http://loacalhost:4000/)
+你好你好你好你好你好你好你好你好
+    你好你好你好你好你好你好
+        你好你好你好你好你好你好
+> 你好你好你好你好你好你好你好你好 ### 你好你好sudo mentohust > hello world
+> Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
+id sem consectetuer libero luctus adipiscing
+***sudo gem install***
+`sudo gen install`
+> ## This is a header.
+>
+> 1.   This is the first list item.
+> 2.   This is the second list item.
+>
+> Here's some example code:
+>
+>     return shell_exec("echo $input | $markdown_script");
+
+> This is the first level of quoting. _single underscores_
+
+this is code ``sudo gem install``
+`` `foo` ``  Please don't use any `<blink>` tagsi.
+
+`&#8212;` is the decimal-encoded equivalent of `&mdash;`.
+
+*single asterisks*
+
+_single underscores_
+
+**double asterisks**
+
+__double underscores__
+
+> **double asterisks**
+
+> > __double underscores__
+>
+> > This is nested ^_^ 哈.
+>
+> Back to the first level.
+{% highlight erb%}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Newpro</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+  <%= csrf_meta_tag %>
+ </head>
+<body>
+<%= yield %>
+</body>
+</html>
+{% endhighlight %}
+>      <%= javascript_include_tag :defaults %>
+
+{% highlight erb linenos %}
+
+   <!DOCTYPE html>
+   <html>
+   <head>
+     <title>Newpro</title>
+     <%= stylesheet_link_tag :all %>
+     <%= javascript_include_tag :defaults %>
+     <%= csrf_meta_tag %>
+    </head>
+   <body>
+   <%= yield %>
+   </body>
+   </html>
+ {% endhighlight %}
+
+*single asterisks*
+
+_single underscores_
+
+**<jiangnan34@gmail.com>**
+<http://www.xiami.com/widget/0_1770236123/singlePlayer.swf>
+
+__double underscores__
+
+*   Red
+*   Green
+*   Blue
++   Red  *single asterisks*
++   Green
++   Blue
+1.  Bird
+2.  McHale
+3.  Parish
+3. Bird
+1. McHale
+8. Parish
+1. 哈
+1. ^_^
+*   2011年7月8日一个值得纪念的日子：**UEditor开源啦 UEditor是由百度web前端**研发部开发的所见即所
+    得富文本web编辑器，__具有轻量，可定制__，注重用户体验等特点，开源基于BSD协议，允许自由使用和使用代码! 请同学们支持，
+*   Donec sit amet nisl. Aliquam semper ipsum sit amet velit.
+    Suspendisse id sem consectetuer libero luctus adipiscing.
+
+*   This is a list item with two paragraphs.
+
+    This is the second paragraph in the list item. You're
+only required to indent the first line. Lorem ipsum dolor
+sit amet, consectetuer adipiscing elit.
+
+*   Another item in the same list.
+
+*   A list item with a blockquote:
+
+    > This is 神码 a blockquote
+
+    > inside a list item.
+This is a normal paragraph:
+
+    This is a code block.
+> This is [an example](http://example.com/ "Title") inline link.
+
+>[This link](http://example.net/) has no title attribute.
+
+> ![推特](/images/twitter1.png "Optional title")
+
+1.  Bird
+2.  McHale
+3.  Parish
+
+1986. What a great season.
+
+*   A list item with a code block:
+
+        <code goes here>
+
+*   A list item with a blockquote:
+
+    > This is a blockquote
+    > inside a list item.
+
+*   This is a list item with two paragraphs.
+
+    This is the second paragraph in the list item. You're
+only required to indent the first line. Lorem ipsum dolor
+sit amet, consectetuer adipiscing elit.
+
+*   Another item in the same list.
+
+1.  This is a list item with two paragraphs. Lorem ipsum dolor
+    sit amet, consectetuer adipiscing elit. Aliquam hendrerit
+    mi posuere lectus.
+
+    Vestibulum enim wisi, viverra nec, fringilla in, laoreet
+    vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
+    sit amet velit.
+
+2.  Suspendisse id sem consectetuer libero luctus adipiscing.
+
+**需要用转义符**
+> \\   backslash
+
+>\`   backtick
+
+>\*   asterisk
+
+>\_   underscore
+
+>\{}  curly braces
+
+>\[]  square brackets
+
+>\()  parentheses
+
+>\#   hash mark
+
+>\+   plus sign
+
+>\-   minus sign (hyphen)
+
+>\.   dot
+
+>\!   exclamation mark
+> **插入flash**
+

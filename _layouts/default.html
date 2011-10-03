@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Jeweller's blog &raquo; {{ page.title }}</title>
+    <meta name="author" content="Jeweller Tsai" />
+    <meta name="description" content="ruby on rails">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/css/screen.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/css/syntax.css" type="text/css" media="screen" />
+  </head>
+
+  <body>
+
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="/">Jeweller's blog</a>
+          <ul class="nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="{{base.url}}/about.html/">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {{content}}
+
+    <footer class="footer">
+    <div class="container">
+      <p class="pull-right"><a href="#">Back to top</a></p>
+      <p>&copy; {{ site.time | date: "%Y" }} Jeweller Tsai </p>
+    </div>
+    </footer>
+
+  </body>
+</html>

@@ -1,0 +1,5 @@
+pygments: true
+markdown: rdiscount
+oderay_css: syntax
+pygments:
+  linenos: true
