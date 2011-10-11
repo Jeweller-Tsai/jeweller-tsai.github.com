@@ -4,9 +4,7 @@ title: 安装Ubuntu10.04和配置RoR开发环境
 category: linux
 ---
 
-上班第一天，配置环境。
-
-要求：安装Ubuntu-10.04 \+ RVM \+ Ruby1.9.2 \+ Git-Flow
+本文将介绍如何安装和配置：Ubuntu-10.04 \+ RVM \+ Ruby1.9.2 \+ Git \+ Git-Flow
 
 #### 1 首先安装 Ubuntu-10.04LTS ####
 
@@ -16,9 +14,10 @@ category: linux
 + 交换分区分配4G（注：一般为内存2倍）
 + 其余分配给home（/home)
 
-之后等待自动安装，可以去吃饭去。:) 接下来安装RVM
-
 #### 2 安装RVM ####
+
+[rvm](https://rvm.beginrescueend.com/
+"https://rvm.beginrescueend.com/")作为ruby版本管理工具，在ruby社区被广泛使用。例如，你有两个项目，一个用到ruby1.8.7,另外一个用到ruby1.9.2，同时，这两个项目分别有依赖与不同的gem，如果没有像rvm这样的版本管理工具，你很难对这两个项目同时进行开发与维护。另外，利用rvm来安装ruby也相当简单。
 
 访问其[官网](https://rvm.beginrescueend.com/ "https://rvm.beginrescueend.com/"),有详细的教程。RVM有两种安装模式：Single-User和Mutil-User,我们选择Single-User模式。开始[安装](https://rvm.beginrescueend.com/rvm/install/ "可以到这里看详细安装教程")：
 
@@ -26,7 +25,7 @@ category: linux
 
     curl -s https://rvm.beginrescueend.com/install/rvm -o rvm-installer ; chmod +x rvm-installer ; ./rvm-installer --version latest
 
-2.2 把RVM作为函数装载到shell会话中
+2.2 把RVM作为功能加载到shell会话中
 
     user$ echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
 
@@ -35,89 +34,75 @@ category: linux
     source .bash_profile
     user$ type rvm | head -1
 
-    如果安装和配置都正确的话，会看到`rvm is a function`
+  如果安装和配置都正确的话，会看到`rvm is a function`
 
-2.4 现在可以看看RVM给我们带来什么benefit！（如果你曾经在linux安装过ruby1.9.2的话，那种蛋疼只有自己试过才知道！）
+2.4 用`rvm notes`查看安装ruby所需依赖，并将其安装
 
-+ 2.4.1 在shell中输入`rvm list known`，能够列出ruby的所有版本
+    sudo /usr/bin/apt-get install build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev
 
->  ![rvm list known](/images/article-images/rvm-list-known.png "list of ruby versions")
+2.5 安装ruby1.8.7\(这里安装1.8.7是因为janus依赖与1.8.7\)
 
-+ 2.4.2 安装ruby 1.9.2
+    rvm install 1.8.7
+    rvm use 1.8.7
 
-    rvm install 1.9.2
-
-+ 2.4.3 使用ruby 1.9.2 并将其设置为默认
-
-    rvm use 1.9.2 --default
-
-+ 2.4.4 用`ruby -v`测试一下是否安装正确，能看到类似如下：
-
-    ruby 1.9.2p180 (2011-02-18 revision 30909) [i386-darwin9.8.0]
-
-+ 2.4.5 用`rvm notes`看看系统所需要的依赖，会看到如下
-
-    # For Ruby (MRI & ree)  you should install the following OS dependencies:ruby: /usr/bin/apt-get install build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev
-
-只要copy然后安装这些依赖，如果没有安装可能导致一些意外。我一开始也没有安装这些依赖，结果不能安装rails。（注：安装了之后要`rvm install 1.9.2`将ruby重新安装一次才能生效。）
+  用`ruby -v`查看是否安装正确
 
 
-#### 3 安装gitflow ####
+#### 3 安装git和gitflow ####
 
-首先要安装git，利用`sudo apt-get install git` 一句话搞定。
+[git](http://git-scm.com/,
+"http://git-scm.com/")是一个免费的开源的版本控制系统，与svn类似。
 
-接下来开始安装[gitflow](https://github.com/nvie/gitflow "https://github.com/nvie/gitflow")
+[gitflow](https://github.com/nvie/gitflow "https://github.com/nvie/gitflow")可以帮助我们更好的管理分支，这无论是在个人开发或者是团队开发都是很有用的！更多了解，请看[这里](http://nvie.com/posts/a-successful-git-branching-model/)
+
+3.1 安装git
+
+    sudo apt-get install git-core git-gui git-doc
+
+3.2 安装gitflow
 
 在linux下，可以利用Rick Osborne的git-flow installer来安装，相当方便。
 
     wget --no-check-certificate -q -O - https://github.com/nvie/gitflow/raw/develop/contrib/gitflow-installer.sh | sudo bash
 
-OK了，接下来就是要熟悉git-flow了，等下次再写写。
 
 #### 4 安装rails ####
 
-首先要安装 rubygems1.9.1
+4.1 安装 rubygems1.9.1
 
-    sudo apt-get install rubygems1.9.1
+    apt-get install rubygems1.9.1
 
-接下安装rails
+4.2 安装rails
 
-    sudo gem install rails 3.0.9
+    gem install rails 3.0.9
+
+另外，可以安装`bundler`, 这个可以方便的安装gem
+
+    gem install bundler
 
 #### 5 安装janus ####
 
-“shame on you， if you don‘t know vim" --看到这句话时，我决心学习使用vim :) 如果你有看到高手是如何使用vim的话，一定会惊叹不已。
+“shame on you， if you don‘t know vim" :-)
 
-+ 5.1 安装vim-gnome
+做RoR开发，很少人使用笨重的IDE，比较强大的编辑器有vim，emacs和textmate。[这里](http://yannesposito.com/Scratch/en/blog/Learn-Vim-Progressively/)有一篇很好的学习vim的教程，希望有所帮助。
 
-    apt-get install vim-gnome
+5.1 安装vim-gnomle和exuberant-ctags
 
-注：这默认会安装 commend-T 这个在ubuntu下可能会导致缩进不正常
+    apt-get install vim-gnome exuberant-ctags
 
-    cd ~/.vim
-
-将以下代码注释掉，再执行`apt-get install vim-gnome`
-
-{% highlight ruby linenos %}
-vim_plugin_task "command_t",        "http://s3.wincent.com/command-t/releases/command-t-1.2.1.vba" do
-  Dir.chdir "ruby/command-t" do
-    if File.exists?("/usr/bin/ruby1.8") # prefer 1.8 on *.deb systems
-      sh "/usr/bin/ruby1.8 extconf.rb"
-    elsif File.exists?("/usr/bin/ruby") # prefer system rubies
-      sh "/usr/bin/ruby extconf.rb"
-    elsif `rvm > /dev/null 2>&1` && $?.exitstatus == 0
-      sh "rvm system ruby extconf.rb"
-    end
-    sh "make clean && make"
-  end
-end
-{% endhighlight %}
-
-+ 5.2 安装[janus](https://github.com/carlhuda/janus "https://github.com/carlhuda/janus")
+5.2 安装[janus](https://github.com/carlhuda/janus "https://github.com/carlhuda/janus")
 
     curl https://raw.github.com/carlhuda/janus/master/bootstrap.sh -o - | sh
 
-安装完之后就要好好花时间去熟悉vim这个利器了。
+#### 6 安装ruby1.9.2 ####
 
-就写到这吧，第一天over了！
+这里和上面安装1.8.7一样
 
+    rvm install 1.9.2
+    rvm use 1.9.2 --default    这里讲1.9.2设置为默认版本
+    ruby -v
+
+## 总结 ##
+
+配置开发环境是开始学习ruby on
+rails的第一件重要的事情，我最初尝试在ubuntu上配置开发环境时浪费了许多时间，希望这篇文章能有所帮助。同时，如果文中有什么错误或者有什么问题，欢迎讨论！
