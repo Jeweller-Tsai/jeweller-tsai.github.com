@@ -40,11 +40,11 @@ category: linux
 
     sudo /usr/bin/apt-get install build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev
 
-2.5 安装ruby1.8.7\(这里安装1.8.7是因为janus依赖与1.8.7\)
+2.5 安装ruby
 
-    rvm install 1.8.7
-    rvm use 1.8.7
-
+    rvm install 1.9.2 1.8.7    安装1.9.2和1.8.7（janus依赖与1.8.7）
+    rvm use 1.9.2 --default    这里讲1.9.2设置为默认版本
+    ruby -v
   用`ruby -v`查看是否安装正确
 
 
@@ -92,15 +92,9 @@ category: linux
 
 5.2 安装[janus](https://github.com/carlhuda/janus "https://github.com/carlhuda/janus")
 
+    rvm use 1.8.7     janus依赖于1.8.7，所以要先启用
     curl https://raw.github.com/carlhuda/janus/master/bootstrap.sh -o - | sh
 
-#### 6 安装ruby1.9.2 ####
-
-这里和上面安装1.8.7一样
-
-    rvm install 1.9.2
-    rvm use 1.9.2 --default    这里讲1.9.2设置为默认版本
-    ruby -v
 
 ## 总结 ##
 
