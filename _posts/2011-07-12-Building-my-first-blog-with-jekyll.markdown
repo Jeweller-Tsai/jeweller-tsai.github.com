@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 利用jekyll建博客----创建
-category: ruby on rails
+category: others
 ---
 这是我的第一个个人博客，做的比较粗糙，还有许多地方是“重用"别人的，见笑了。下面将介绍我如何利用jekyll来搭建这个博客。
 

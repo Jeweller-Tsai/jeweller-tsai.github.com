@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 安装Ubuntu10.04和配置RoR开发环境
-category: linux
+category: RubyOnRails
 ---
 
 本文将介绍如何安装和配置：Ubuntu-10.04 \+ RVM \+ Ruby1.9.2 \+ Git \+ Git-Flow

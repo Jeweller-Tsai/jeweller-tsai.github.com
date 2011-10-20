@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 利用jekyll建博客----部署
-category: ruby on rails
+category: others
 ---
 
 通过上一篇文章[利用jekyll建博客----创建](),我们已经知道如何利用jekyll轻松搭建自己的博客，那么接下了就是部署了。jekyll提供了许多的[部署方案](https://github.com/mojombo/jekyll/wiki/Deployment "https://github.com/mojombo/jekyll/wiki/Deployment"),而我选择将其部署到[Heroku](http://www.heroku.com/ "http://www.heroku.com/")上，因为可以免费! 当然，实际上Heroku并不是完全免费，因为我这个博客完全是静态网页，没有用到数据库。有兴趣可以看下Heroku是如何[pricing](http://www.heroku.com/pricing#0-0 "http://www.heroku.com/pricing#0-0")的。
