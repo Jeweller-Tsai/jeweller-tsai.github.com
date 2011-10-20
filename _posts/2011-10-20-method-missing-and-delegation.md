@@ -1,6 +1,6 @@
 ---
 layout: post
-title: method_missing与代理
+title: method_missing与代理模式
 category: RubyOnRails
 ---
 
