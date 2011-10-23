@@ -8,11 +8,11 @@ category: RubyOnRails
 
 本文主要内容包括：
 
-1.  ruby中方法的查找顺序
-2.  `method_missing`的使用
-3.  `Object#send`的使用
-4.  代理模式的ruby实现
-5.  rails中`find_by_*`分析
+>1.  ruby中方法的查找顺序
+>2.  `method_missing`的使用
+>3.  `Object#send`的使用
+>4.  代理模式的ruby实现
+>5.  rails中`find_by_*`分析
 
 ###一、Ruby中方法的查找顺序
 
@@ -43,13 +43,13 @@ category: RubyOnRails
 
 ![继承树](/public/images/2011-10-20-1.png " 查找树")
 
-1.  先查找单体类中是否定义改方法；是则执行该方法，否则转２
-2.  是否引入ｍｏｄｕｌｅ，是则查找该ｍｏｄｕｌｅ是否定义，否则转３
-3.  查找其原来的类（即Ｄ）是否定义改方法，依此类推，往继承树上查找
+>1.  先查找单体类中是否定义改方法；是则执行该方法，否则转２
+>2.  是否引入ｍｏｄｕｌｅ，是则查找该ｍｏｄｕｌｅ是否定义，否则转３
+>3.  查找其原来的类（即Ｄ）是否定义改方法，依此类推，往继承树上查找
 
 那么，如果一直延继承树向上查找，直至`BasicObject`,仍旧没有找到，此时便报`NoMethodError`。对于这个错误，ｒｕｂｙｉｓｔ应该再熟悉不过了。
 
-###二、神器一：`method_missing`
+###二、使用method_missing来捕获异常
 
 为了能这个错误进行相应处理，Ｒｕｂｙ提供了一个`hook`, here comes the
 magic `method_missing`!
@@ -91,7 +91,7 @@ magic `method_missing`!
 
 然而，我们能做的远远不止与此。　
 
-###三、神器二：`Object#send`
+###三、使用Object#send来发送消息
 
 直接看看ｒｕｂｙ的[API](http://www.ruby-doc.org/core-1.9.2/Object.html#method-i-send)中的例子：
 
