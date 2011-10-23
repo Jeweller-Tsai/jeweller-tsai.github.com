@@ -38,20 +38,20 @@ category: RubyOnRails
   # => [N, D, M, C, Object, Kernel, BasicObject]
 {% endhighlight %}
 
-在上面例子中，首先定义了module M和N，然后定义class C和D，其中Ｃｉｎｃｌｕｄｅ了Ｍ，Ｄ继承自Ｃ。我们通过`class << object; end`来让“隐身”的`singleton class`现身，然后在`object`的`singleton class`include module N, 然后打印出`object`的`ancestors`
-。从输出的结果，我们可以清楚的看到Ｒｕｂｙ中的继承顺序。（其中，ｏｂｊｅｃｔ本身没有输出）这也说明了Ｒｕｂｙ中方法的查找也将会延该顺序进行查找。如图所示：
+在上面例子中，首先定义了module M和N，然后定义class C和D，其中D继承自C,并且包含了M。我们通过`class << object; end`来让“隐身”的`singleton class`现身，然后在`object`的`singleton class`include module N, 然后打印出`object`的`ancestors`
+。从输出的结果，我们可以清楚的看到Ruby中的继承顺序。（其中，object本身没有输出）这也说明了Ruby中方法的查找也将会延该顺序进行查找。如图所示：
 
 ![继承树](/public/images/2011-10-20-1.png " 查找树")
 
->1.  先查找单体类中是否定义改方法；是则执行该方法，否则转２
->2.  是否引入ｍｏｄｕｌｅ，是则查找该ｍｏｄｕｌｅ是否定义，否则转３
->3.  查找其原来的类（即Ｄ）是否定义改方法，依此类推，往继承树上查找
+>1.  先查找单体类中是否定义改方法；是则执行该方法，否则转2
+>2.  是否引入module，是则查找该module是否定义，否则转3
+>3.  查找其原来的类（即D）是否定义改方法，依此类推，往继承树上查找
 
-那么，如果一直延继承树向上查找，直至`BasicObject`,仍旧没有找到，此时便报`NoMethodError`。对于这个错误，ｒｕｂｙｉｓｔ应该再熟悉不过了。
+那么，如果一直延继承树向上查找，直至`BasicObject`,仍旧没有找到，此时便报`NoMethodError`。对于这个错误，rubyist应该再熟悉不过了。
 
 ###二、使用method_missing来捕获异常
 
-为了能这个错误进行相应处理，Ｒｕｂｙ提供了一个`hook`, here comes the
+为了能这个错误进行相应处理，Ruby提供了一个`hook`, here comes the
 magic `method_missing`!
 延续上面例子，让我们再通过一个例子来看看`method_missig`如何工作的。
 
@@ -68,7 +68,7 @@ magic `method_missing`!
   end
 {% endhighlight %}
 
-此时，如果我们向ｏｂｊｅｃｔ发送ｆｏｏ消息
+此时，如果我们向object发送foo消息
 
 {% highlight ruby irb %}
   object.foo 
@@ -77,7 +77,7 @@ magic `method_missing`!
     which caused a disaster
 {% endhighlight %}
 
-那，如果向ｏｂｊｅｃｔ发送ｂａｒ消息
+那，如果向object发送bar消息
 
 {% highlight ruby irb %}
   object.bar
