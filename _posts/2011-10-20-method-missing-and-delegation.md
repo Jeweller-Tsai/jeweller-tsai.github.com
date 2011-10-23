@@ -249,11 +249,3 @@ Rails中提供`find_by_*`一族是不是很神奇呢？例如， `User.find_by_u
 >    《Ruby Best Practices》
 
 >    《Design Patterns In Ruby》
-
-
-
-
-
-
-
-
