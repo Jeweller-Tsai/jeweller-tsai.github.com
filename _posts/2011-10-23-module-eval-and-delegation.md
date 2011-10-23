@@ -13,9 +13,9 @@ category: RubyOnRails
 
 ###一、eval和eval-\*一族简介
 
-和其他语言一样，Ruby也提供了在*runtime*执行存放在字符串中的代码的机制，例如，`eval`。与`eval`相似的还有`instance_eval`，`class_eval`（`module_eval`）等，我将在下文作简要介绍。一言以蔽之，这种机制做是：*在执行当前文件中代码之前，若发现改文件中有以字符串形式存储的代码，立即执行这部分代码。* 这种机制经常被利用来动态的生产方法。以方法来生产方法，听起来似乎挺有意思。
+和其他语言一样，Ruby也提供了在**runtime**执行存放在字符串中的代码的机制，例如，`eval`。与`eval`相似的还有`instance_eval`，`class_eval`（`module_eval`）等，我将在下文作简要介绍。一言以蔽之，这种机制做是：**在执行当前文件中代码之前，若发现改文件中有以字符串形式存储的代码，立即执行这部分代码。** 这种机制经常被利用来动态的生产方法。以方法来生产方法，听起来似乎挺有意思。
 
-####1. 使用`eval`执行任意的字符串代码
+####1. 使用eval执行任意的字符串代码
 
 {% highlight ruby irb %}
   eval("'hello' + ' ' + 'world'")
@@ -44,7 +44,7 @@ category: RubyOnRails
 
 这样，你就定义了一个叫`dead`的空方法，又通过“#”注释掉后面的代码，然后执行删除文件的命令！ :-( `eval`直截了当，但也相当危险，貌似在早期的ruby版本中没有提供那么多操作方式，想要达到这种效果的话只能通过`eval`。但是现在Ruby提过了一些更为温和的方式。
 
-#####2. 使用`instance_eval`
+#####2. 使用instance_eval
 
 `instance_eval`的作用是：*在接收者（receiver）的上下文中*，执行给定的字符串或者代码块。Ruby [API][2]提供了一个例子，这里稍做修改：
 
@@ -147,7 +147,7 @@ category: RubyOnRails
 
 看了`eval`和`eval-*`一族简介，我们来看一下`module_eval`在实际中的应用吧。
 
-###二、ActiveSupport中的`Module#delegate`实现分析
+###二、ActiveSupport中的Module#delegate实现分析
 
 我[《method_missing与代理模式》][1]分析了Rails的`ActiveRecord::Base`利用`method_missing`这一钩子方法来实现`find_by_*`，采用这种实现，是因为需求是不确定的。因为你根本不知道一个类到底会有多少属性；不知道`find_by_*`后面会跟的是什么属性，但是最终都为代理到类方法`where`，所以使用`method_missing`正好能够满足这种动态的需求。那么`ActiveSupport`中的`Module#delegate`的需求并分那么模糊，我们在使用`delegate`肯定是非常明确的知道要从哪个的某一个方法代理到当前类中来的，所以采用`module_eval`来实现，`scoped_by_*`也是结合`method_missing`和`module_eval`来实现的。来看看相关[源码][4]	
 
@@ -192,7 +192,7 @@ category: RubyOnRails
 
 本文介绍了`eval-*`一族的基本用法，并简要分析了ActiveSupport`中的`Module#delegate`是如何利用`module_eval`实现的。可能这些方法在一般的程序中是比较少用到的，但作为一个Rubyist，了解一下Ruby的动态特性，对我们掌握ruby这门语言是有帮助的，也有利于开阔我们的思维。
 
-*本文和[《method_missing与代理模式》][1]是我近期学习的总结，如果你在阅读过程发现文中有错误或者不妥之处，请指正！* :+) 
+**本文和[《method_missing与代理模式》][1]是我近期学习的总结，如果你在阅读过程发现文中有错误或者不妥之处，请指正！** :+) 
 
 #####本文参考资料
 
