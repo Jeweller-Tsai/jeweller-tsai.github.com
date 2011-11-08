@@ -71,13 +71,14 @@ category: RubyOnRails
 
 #### 4 安装rails ####
 
-4.1 创建全局gemset并使用
+4.1 创建全局gemset
 
     rvm gemset create rails309
+    
+
+4.2 启用gemset并安装rails-3.0.9
+    
     rvm use 1.9.2@rails309
-
-4.2 安装rails
-
     gem install rails 3.0.9
 
 4.3 用gemset管理每个项目的gem
