@@ -155,6 +155,40 @@ CoffeeScript的语法应该是参考了Ruby和Python的吧，所以也相当简�
  
 {% endhighlight %}
 
+#更新
+
+今天在想，Ruby里面的mixin是面向`module`的，可是无论是JS还是coffeescript，都没有`module`阿。上文我将`Validator`写成一个类，但是上文也说了以下这种做法没有mixin优雅。
+
+{% highlight python %}
+  class CustomerInfo
+    validator: new Validator
+{% endhighlight %}
+
+**也就是说，`Validator`这个类应该不可能被实例化了，既然不可能被实例话，写成类是不是不合适呢？**
+
+{% highlight python %}
+  window.include = (mixin, klass) ->
+    klass.prototype[name] = method for name, method of mixin.prototype
+{% endhighlight %}
+
+**这里将`mixin.prototype`中所有方法都迭代出来赋给`klass.prototype`，这样做似乎也欠妥！**因为`klass`的`prototype`和`mixin`的`prototype`应该有交集，也就是说他们有相同的方法，我们这样做不就违反了DRY吗？
+
+基于以上两个理由，直接将`Validator`写成一个`Hash`(或者说一个`object`)，可能更妥当。
+
+{% highlight python %}
+  # 方法体同上，此处省略
+  Validator = 
+    validates: ->           
+    validatesPresenceOf: -> 
+
+ # 直接读出mixin对象中的方法
+ window.include = (mixin, klass) ->
+    klass.prototype[name] = method for name, method of mixin
+{% endhighlight %}
+
+以上的这种做法是不是更合适呢？ >_<
+
+
 ##总结
 
 以OO的思维方式来写JS，可以提高代码的可读性，处理起复杂的逻辑更加得心应手。或许像这样的前端验证根本算的上复杂，但就我个人经验，如果是更加复杂的应用，优势会更加明显。
