@@ -33,7 +33,10 @@ title: home
         </ul>
       </div>
       <div class="span4">
-        <h3>Secondary content</h3>
+        <h2>Categories</h2>
+        {% for category in site.categories %}
+          <h3>{{ category[0] | join: '/' }} <span>({{ category[1].size }})</span></h3>
+        {% endfor %}
       </div>
     </div>
   </div>
