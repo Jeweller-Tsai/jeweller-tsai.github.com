@@ -7,38 +7,77 @@ title: home
 
 <div class="container">
 
-  <div class="content">
-    <div class="row">
-      <div class="span10">
+  <div class='content'>
+    <div class="row-fluid">
+      <div class="span9">
         {% for post in site.posts limit: 3 %}
+        <div class='new-article'>
           <p>
+          <span class="label label-success"><i class='icon-star icon-white'></i>new</span>
           <time datetime="{{ post.date | xmlschema }}">{{ post.date | date_to_long_string }}</time>
-          <span class="label success">new!</span>
           </p>
-          <h2><a href="{{post.url}}">{{ post.title }}</a></h2>
+          <div class='clear'></div>
+          <h1 class='article-title'>
+            <a href="{{post.url}}">{{ post.title }}</a>
+          </h1>
           {{ post.content | truncatewords: 10 }}
-          <p><a class="btn primary medium" href="{{post.url}}">全文&raquo;</a></p>
-        <br>
-        <hr>
-        <br>
+          <p>
+          <a class="btn btn-small btn-info" href="{{post.url}}">
+            <i class='icon-info-sign icon-white'></i>
+            more
+          </a>
+          </p>
+        </div>
         {% endfor %}
         <h2> 更多文章 </h2>
         <ul class="unstyled">
           {% for post in site.posts offset: 3 %}
           <li>
           <h3><time datetime="{{ post.date | xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time> &raquo;
-          <a href="{{post.url}}">{{ post.title }}</a></h3>
+            <a href="{{post.url}}">{{ post.title }}</a></h3>
           </li>
           {% endfor %}
         </ul>
       </div>
-      <div class="span4">
-        <h2>Categories</h2>
-        {% for category in site.categories %}
-          <h3>{{ category[0] | join: '/' }} <span>({{ category[1].size }})</span></h3>
-        {% endfor %}
+
+      <div class="span3 sidebar">
+        <ul class='nav nav-list'>
+          <li class='nav-header'>Categories</li>
+          {% for category in site.categories %}
+          <li>
+            <a  data-toggle="collapse" data-target="#{{category[0]}}"
+              href='#none'><i class='icon-book'></i>
+              {{ category[0] | join: '/' }}
+              <span>({{ category[1].size }})</span>
+            </a>
+          </li>
+          <div class='collapse collapsible-items' id="{{ category[0] }}">
+            {% for post in category[1] %}
+            <h5><a href="{{ post.url }}"><i class='icon-file'></i>{{ post.title }}</a></h5>
+            {% endfor %}
+          </div>
+          {% endfor %}
+
+          <li class='nav-header'>Tags</li>
+          {% for tag in site.tags %}
+          <li>
+            <a  data-toggle="collapse" data-target="#{{tag[0]}}"
+              href='#none'><i class='icon-tag'></i>
+              {{ tag[0] | join: '/' }}
+              <span>({{ tag[1].size }})</span>
+            </a>
+          </li>
+          <div class='collapse collapsible-items' id="{{ tag[0] }}">
+            {% for post in tag[1] %}
+            <h5><a href="{{ post.url }}"><i class='icon-file'></i>{{ post.title }}</a></h5>
+            {% endfor %}
+          </div>
+          {% endfor %}
+
+          <li class='nav-header'>Projects</li>
+          <li><a href="https://github.com/towerhe/gmusic/tree/develop" target="_blank"><span class='github-icon'></span>Gmusic</a></li>
+        </ul>
       </div>
     </div>
   </div>
-
-</div> <!-- /container -->
+</div>
