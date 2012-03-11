@@ -2,6 +2,7 @@
 layout: post
 title: method_missing与代理模式
 category: RubyOnRails
+tags: ruby meta-programming
 ---
 
 最近在学习Ruby的动态特性，作此文以梳理近期所学知识。

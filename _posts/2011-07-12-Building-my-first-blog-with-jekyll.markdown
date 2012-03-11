@@ -1,7 +1,8 @@
 ---
 layout: post
 title: 利用jekyll建博客----创建
-category: others
+category: jekyll
+tags: blog
 ---
 这是我的第一个个人博客，做的比较粗糙，还有许多地方是“重用"别人的，见笑了。下面将介绍我如何利用jekyll来搭建这个博客。
 
@@ -10,14 +11,17 @@ ruby社区用的比较多，感觉比较方便。大家可以先看看一些用*
 
 ####1 [安装jekyll](https://github.com/mojombo/jekyll/wiki/install)
 
+{% highlight bash %}
     gem install jekyll
     sudo apt-get install python-pygments
+{% endhighlight %}
 
 第一条指令会安装所依赖的directory_watcher, liquid, open4, maruku classifier 4个gem
 第二条会安装pygments，pygments能够显示近百中代码的格式，提供许多很酷的配色方案，我想这是程序员的最爱。
 
 ####2 基本的文件框架
 
+{% highlight bash %}
     |-- _config.yml                    ---存储一些配置数据
     |-- _layouts                       ---基本页面框架
     |   |-- default.html               ---整个网站的layout
@@ -27,12 +31,15 @@ ruby社区用的比较多，感觉比较方便。大家可以先看看一些用*
     |   `-- year-month-day-title2.markown
     |-- _site                          ---jekyll自动生成的静态页面，部署时只需要吧这个文件夹放到服务器上
     `-- index.htm                      ---网站主页
+{% endhighlight %}
 
 至于其他文件夹，可以根据自己需要去添加。在我的项目中就有css，javascript等
 
 ####3 运行jekyll
 
+{% highlight bash %}
     jekyll --server --auto
+{% endhighlight %}
 
 这条这里启动服务器，访问**http://localhost:4000** 可以看到自己网页。
 
@@ -48,7 +55,9 @@ ruby社区用的比较多，感觉比较方便。大家可以先看看一些用*
 
 >    4 [pygments](http://pygments.org/demo/ "可以用自己的代码来体验一下")提供许多配色方案，选一个自己喜欢的方案。
 
+{% highlight bash %}
     pygmentize -f html -S default > pygments.css
+{% endhighlight %}
 
 这条指令生成css文件（可以将default换成native或其他配色方案），再引用到你的网页中，这样就能高亮代码了。
 

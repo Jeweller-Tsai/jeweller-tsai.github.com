@@ -2,6 +2,7 @@
 layout: post
 title: 2B or 文艺 
 category: work
+tags: 设计 流程图
 ---
 ##周五的工作成果————接线员的部分工作流图
 

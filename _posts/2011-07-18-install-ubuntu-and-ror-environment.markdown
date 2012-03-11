@@ -2,6 +2,7 @@
 layout: post
 title: 安装Ubuntu10.04和配置RoR开发环境
 category: RubyOnRails
+tags: linux ubuntu 搭建开发环境
 ---
 
 本文将介绍如何安装和配置：Ubuntu-10.04 \+ RVM \+ Ruby1.9.2 \+ Git \+ Git-Flow
@@ -23,14 +24,17 @@ category: RubyOnRails
 
 2.1 安装git
 
+{% highlight bash %}
     sudo apt-get install git-core git-gui git-doc
+{% endhighlight %}
 
 2.2 安装gitflow
 
 在linux下，可以利用Rick Osborne的git-flow installer来安装，相当方便。
 
+{% highlight bash %}
     wget --no-check-certificate -q -O - https://github.com/nvie/gitflow/raw/develop/contrib/gitflow-installer.sh | sudo bash
-
+{% endhighlight %}
 
 #### 3 安装RVM ####
 
@@ -41,50 +45,63 @@ category: RubyOnRails
 
 3.1 安装最新版本的RVM
 
+{% highlight bash %}
     curl -s https://rvm.beginrescueend.com/install/rvm -o rvm-installer ; chmod +x rvm-installer ; ./rvm-installer --version latest
+{% endhighlight %}
 
 3.2 把RVM作为功能加载到shell会话中
 
+{% highlight bash %}
     user$ echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
+{% endhighlight %}
 
 3.3 重载shell配置并测试
 
+{% highlight bash %}
     source .bash_profile
     user$ type rvm | head -1
+{% endhighlight %}
 
   如果安装和配置都正确的话，会看到`rvm is a function`
 
 3.4 用`rvm requirements`查看安装ruby所需依赖，并将其安装
 
+{% highlight bash %}
     sudo /usr/bin/apt-get install build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev
+
+{% endhighlight %}
 
 *注：必须先安装依赖，否则可能会出错*
 
 3.5 安装ruby
 
-    rvm install 1.9.2 1.8.7    安装1.9.2和1.8.7（janus依赖与1.8.7）
-    rvm use 1.9.2 --default    这里讲1.9.2设置为默认版本
-    ruby -v
-  用`ruby -v`查看是否安装正确
-
-
+{% highlight bash %}
+    rvm install 1.9.2 1.8.7   # 安装1.9.2和1.8.7（janus依赖与1.8.7）
+    rvm use 1.9.2 --default   # 这里讲1.9.2设置为默认版本
+    ruby -v                   # 查看版本是否正确
+{% endhighlight %}
 
 #### 4 安装rails ####
 
 4.1 创建全局gemset
 
+{% highlight bash %}
     rvm gemset create rails309
+{% endhighlight %}
     
 
 4.2 启用gemset并安装rails-3.0.9
     
+{% highlight bash %}
     rvm use 1.9.2@rails309
     gem install rails 3.0.9
+{% endhighlight %}
 
 4.3 用gemset管理每个项目的gem
 
   在开发过程中，可以用gemset来管理每个项目的gems。例如，你想要用rails-3.0.9来创建一个项目
 
+{% highlight bash %}
     rvm use 1.9.2@rails309                                #使用rails309这个gemset 
 
     rails new {project_name}                              #创建一个新的rails项目
@@ -98,10 +115,13 @@ category: RubyOnRails
     echo 'use 1.9.2@{project_name}' > .rvmrc              #讲命令放入.rvmrc中，以后每当进入该项目时，
                                                           #自动启用gemset，退出则自动退出
     cd .                                                  #启用rvm配置
+{% endhighlight %}
 
 另外，可以安装`bundler`, 这个可以方便的安装gem
 
+{% highlight bash %}
     gem install bundler
+{% endhighlight %}
 
 #### 5 安装janus ####
 
@@ -111,16 +131,22 @@ category: RubyOnRails
 
 5.1 安装rake
 
+{% highlight bash %}
     sudo apt-get install rake
+{% endhighlight %}
 
 5.2 安装vim-gnomle和exuberant-ctags
 
+{% highlight bash %}
     sudo apt-get install vim-gnome exuberant-ctags
+{% endhighlight %}
 
 5.3 安装[janus](https://github.com/carlhuda/janus "https://github.com/carlhuda/janus")
 
+{% highlight bash %}
     rvm use 1.8.7     janus依赖于1.8.7，所以要先启用
     curl https://raw.github.com/carlhuda/janus/master/bootstrap.sh -o - | sh
+{% endhighlight %}
 
 
 ## 总结 ##

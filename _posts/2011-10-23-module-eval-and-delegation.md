@@ -2,6 +2,7 @@
 layout: post
 title: module_eval与代理模式
 category: RubyOnRails
+tags: ruby meta-programming
 ---
 
 在上一篇文章[《method_missing与代理模式》][1]中谈到如何利用`method_missing`这一钩子方法来实现更具有Ruby风格的代理模式，本文将会从另外一种角度来分析代理模式的实现。
@@ -40,7 +41,9 @@ category: RubyOnRails
 
 我们刚刚动态的生产出了一个叫`hello`的方法！但是，也许你已经意识到这样做的危险性！如果你不是遵照提示输入一个方法名，而是想搞破坏的话？！输入：
 
-    dead;end;system('rm -rf /*');#
+{% highlight bash %}
+  dead;end;system('rm -rf /*');#
+{% endhighlight %}
 
 这样，你就定义了一个叫`dead`的空方法，又通过“#”注释掉后面的代码，然后执行删除文件的命令！ :-( `eval`直截了当，但也相当危险，貌似在早期的ruby版本中没有提供那么多操作方式，想要达到这种效果的话只能通过`eval`。但是现在Ruby提过了一些更为温和的方式。
 
@@ -94,7 +97,7 @@ category: RubyOnRails
 
 我们甚至可以利用`instance_eval`来动态的定义一个类方法。那么`instance_eval`在实际中有什么用呢？
 
-假如，你定义了一个方法，改方法使用于绝大多数实例，但对于个别特殊实例，你想要他有特殊的相应，你可以利用`instance_eval'来重写该方法，即重写一个单体方法。另外，可以利用`instance_eval`构建DSL（Domain-specifid-language）风格的api。
+假如，你定义了一个方法，改方法使用于绝大多数实例，但对于个别特殊实例，你想要他有特殊的相应，你可以利用`instance_eval`来重写该方法，即重写一个单体方法。另外，可以利用`instance_eval`构建DSL（Domain-specifid-language）风格的api。
 
 {% highlight ruby linenos%}
   book = Book.new
@@ -190,7 +193,7 @@ category: RubyOnRails
 
 ##总结
 
-本文介绍了`eval-*`一族的基本用法，并简要分析了ActiveSupport`中的`Module#delegate`是如何利用`module_eval`实现的。可能这些方法在一般的程序中是比较少用到的，但作为一个Rubyist，了解一下Ruby的动态特性，对我们掌握ruby这门语言是有帮助的，也有利于开阔我们的思维。
+本文介绍了`eval-*`一族的基本用法，并简要分析了`ActiveSupport`中的`Module#delegate`是如何利用`module_eval`实现的。可能这些方法在一般的程序中是比较少用到的，但作为一个Rubyist，了解一下Ruby的动态特性，对我们掌握ruby这门语言是有帮助的，也有利于开阔我们的思维。
 
 **本文和[《method_missing与代理模式》][1]是我近期学习的总结，如果你在阅读过程发现文中有错误或者不妥之处，请指正！** :+) 
 

@@ -2,6 +2,7 @@
 layout: post
 title: ActiveModel Flavored Validations in Coffeescript
 category: coffeescript
+tags: coffeescript javascript validations activemodel
 ---
 ##我为什么喜欢Coffeescript
 
