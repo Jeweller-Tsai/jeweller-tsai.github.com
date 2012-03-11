@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 2B or 文艺 
+title: 2B OR NOT 2B, THAT IS A Q!
 category: work
 tags: 设计 流程图
 ---
