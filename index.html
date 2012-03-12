@@ -61,13 +61,13 @@ title: home
           <li class='nav-header'>Tags</li>
           {% for tag in site.tags %}
           <li>
-            <a  data-toggle="collapse" data-target="#{{tag[0]}}"
+            <a  data-toggle="collapse" data-target="#tag-{{tag[0]}}"
               href='#none'><i class='icon-tag'></i>
               {{ tag[0] | join: '/' }}
               <span>({{ tag[1].size }})</span>
             </a>
           </li>
-          <div class='collapse collapsible-items' id="{{ tag[0] }}">
+          <div class='collapse collapsible-items' id="tag-{{tag[0]}}">
             {% for post in tag[1] %}
             <h5><a href="{{ post.url }}"><i class='icon-file'></i>{{ post.title }}</a></h5>
             {% endfor %}
