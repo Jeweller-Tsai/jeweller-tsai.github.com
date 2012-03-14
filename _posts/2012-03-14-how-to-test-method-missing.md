@@ -11,10 +11,6 @@ tags: ruby meta-programming
 重复代码如下：
 
 {% highlight ruby linenos %}
-  def orders
-    @orders ||= RightnowOms::Order.where(user_id: id)
-  end
-
   def paid_orders
     orders.where(state_cd: RightnowOms::Order::STATUS.index(:paid))
   end
