@@ -6,7 +6,7 @@ tags: ruby meta-programming
 ---
 我在之前的文章[《method_missing与代理模式》][1]和[《module_eval与代理模式》][2]对`method_missing`有过较为详细的介绍，当时我正在学习ruby的动态特性，但是几个月过去了，我一直没有机会用到这个magic。今天和同学结对编程，发现相似的方法方法写了3个，并且为3个方法都分别写了测试。3应该是个临界点，再过则有违背DRY之嫌。而且我们最后整理出来，可能相似的方法要增加到8个，于是`method_missing`有了用武之地。不过本篇文章重点不是`method_missing`，而是对其做相应测试。如对`method_missing`还不了解，请参详[这里][1]和[这里][1]。
 
-##一、代码重复
+###一、代码重复
 
 重复代码如下：
 
@@ -61,7 +61,7 @@ tags: ruby meta-programming
 
 每个状态的`order`都提供一个，然后测试查找出来的`order`与该状态相对应。
 
-##二、重构
+###二、重构
 
 下面为重构后代码：
 
@@ -119,7 +119,7 @@ WOW!测试也变得相当简洁了！这里用了[Object#instance_variable_set][
   self.class # => RSpec::Core::ExampleGroup::Nested_1
 {% endhighlight %}
 
-##总结
+###总结
 
 **好代码是改出来的！**工作时我们遵循"Done is better then
 perfect"的原则，先实现功能，但功能实现了之后，如果有时间，应该回过来来看看自己写的代码，能重构则重构，这样才能写出有质量的代码，才能不断的提高自己。
