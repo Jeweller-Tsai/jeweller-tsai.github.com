@@ -137,3 +137,6 @@ html, body {
   vertical-align: middle;
   background: url(/public/img/github-icons.png) no-repeat 0 0;
 }
+.nav .follow {
+  margin-top: 10px;
+}
