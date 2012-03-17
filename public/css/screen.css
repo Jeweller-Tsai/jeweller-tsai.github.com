@@ -139,4 +139,8 @@ html, body {
 }
 .nav .follow {
   margin: 10px 5px;
+  height: 18px;
+}
+.nav .follow .no-padding {
+  padding: 0;
 }
