@@ -17,8 +17,12 @@ layout: default
         <i class='icon-tag icon-white'></i>{{ tag }}
       </span>
       {% endfor %}
+      <span class='pull-right'><g:plusone></g:plusone></span>
     </div>
     {{ content }}
+      <div class='pull-right'>
+        <g:plusone></g:plusone>
+      </div>
     <hr>
     <h3>相关文章</h3>
     <ul class="unstyled">
@@ -38,10 +42,10 @@ layout: default
        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
        })();
-     </script>
-     <noscript>Please enable JavaScript to view the
-       <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-     <a href="http://disqus.com" class="dsq-brlink">blog comments powered by<span class="logo-disqus">Disqus</span></a>
+</script>
+<noscript>Please enable JavaScript to view the
+  <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by<span class="logo-disqus">Disqus</span></a>
    </div>
  </div>
  <!-- JiaThis Button BEGIN -->
