@@ -2,7 +2,7 @@
 layout: post
 title: Extracts Shared Methods Into A Module
 category: RubyOnRails
-tags: DRY
+tags: DRY 程序设计
 ---
 
 ### Don't repeat yourself
@@ -178,7 +178,5 @@ params[:id])
 而在程序中，我们通过类似`has_many belongs_to`等，建立的对象树（层级结构），比如，一个作者有多篇文章，我们可以快速的从主干访问到枝叶`author.articles`，也可以从枝叶快速的访问到主干`article.author`。既符合我们对现实世界的理解，也有利于安全。例如，上文的例子中，`current_person`只能够访问到属于自己的`notifications`，而不能获得别人的。
 
 再者，在controller中，已`current_user`为核心是一种最佳实践，他让我们更容易的理解目前在发生什么事情。比如，`current_person.find_notification_by_id`, 以OO的方式来解读，是发送`find_notification_by_id`这条消息给`current_person`。翻译成汉语是，“让当前用户通过id去查找（属于自己的 -- _隐含的_）通知”。而`Notification.find(params[:id])`则显得不这么OO，翻译成汉语是，“从数据库中检索出对应id的通知”。相形见绌！
-
-
 
 [1]: http://en.wikipedia.org/wiki/Don't_repeat_yourself
