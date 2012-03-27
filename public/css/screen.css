@@ -54,7 +54,8 @@ html, body {
   text-align: center; /* center align it with the container */
 }
 .container {
-  width: 820px; }
+  width: 820px;
+}
 
 .content {
   background-color: whiteSmoke;
