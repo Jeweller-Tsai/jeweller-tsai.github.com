@@ -5,11 +5,10 @@ $(document).ready(function () {
     $(this).collapse();
   });
 
-  $('.sidebar .nav li').click(function () {
-    var jThis = $(this);
-    jThis.siblings().removeClass('active');
-    jThis.addClass('active');
-  });
+  $('.sidebar .nav li').hover(
+    function () { $(this).addClass('active'); },
+    function () { $(this).removeClass('active'); }
+  );
 
   $("#back-to-top").hide();
   $(function () {
