@@ -89,7 +89,7 @@ controller"!先要在一个action里面解决这3件事，而且还要保证事�
   end
 {% endhighlight %}
 
-上面代码中`newbie?`用来判断用户是否是第一次参与拍卖（留了个TODO，因为规则定义有问题）。这个方法就会被页面调用，如果是首次参与用户，会要求其填写个人信息，JS处理。在`bid_if_allow`中调用，是为确保安全，避免非法用户绕开JS。第二个判断是判断用户出价是否高过当前价格，这部分也会用JS处理，同样是出于安全考量。接下来部分用一个`transaction`包裹，确保原子性。这里用`AuctionRecord.transaction`(AuctionRecord是拍卖记录)，是因为`block`将会创建一条拍卖记录，当资金冻结失败时会回滚。资金冻结也是一个transaction，(注：实际上ActiveRecord不支持多model的transaction。但以上做法已经能满足我们的需求)用了`freeze!`与`freeze`相对，区别是会抛错。外面用`begin rescue`包裹，捕捉到后返回`nil`。如果正常执行，`bid_if_allow`最终返回一条拍卖记录，失败则返回nil。
+上面代码中`newbie?`用来判断用户是否是第一次参与拍卖（留了个TODO，因为规则定义有问题）。这个方法就会被页面调用，如果是首次参与用户，会要求其填写个人信息，JS处理。在`bid_if_allow`中调用，是为确保安全，避免非法用户绕开JS。第二个判断是判断用户出价是否高过当前价格，这部分也会用JS处理，同样是出于安全考量。接下来部分用一个`transaction`包裹，确保原子性。这里用`AuctionRecord.transaction`(AuctionRecord是拍卖记录)，是因为`block`将会创建一条拍卖记录，当资金冻结失败时会回滚。资金冻结也是一个transaction，<s>(注：实际上ActiveRecord不支持多model的transaction。但以上做法已经能满足我们的需求)</s>(**更正：应该是不支持分布式的数据库链接。Rails的transaction是基于数据库链接(per-database connection)，而非基于model(per model)。解释看[这里][4])**用了`freeze!`与`freeze`相对，区别是会抛错。外面用`begin rescue`包裹，捕捉到后返回`nil`。如果正常执行，`bid_if_allow`最终返回一条拍卖记录，失败则返回nil。
 
 关于为什么需要用到`block`和`NOTE`注释，会在调用是再做说明。测试太长，仅截取关键部分：
 
@@ -177,6 +177,8 @@ controller"!先要在一个action里面解决这3件事，而且还要保证事�
   end
 {% endhighlight %}
 
+当我们把业务逻辑从controller中抽离出来之后，你会发现controller的测试变得非常简单。你只需要断言`bid_if_allow`在成功或失败的应该返回的头部即可。
+
 看完测试应该基本能明白controller改怎么写了。
 
 {% highlight ruby linenos %}
@@ -202,7 +204,7 @@ controller"!先要在一个action里面解决这3件事，而且还要保证事�
 
 这是最终效果了。直到这个场景下，我们才为`current_user`注入`bidder`角色，他才具有参与拍卖的权利。说说`bid_if_allow`这个方法命名。“如果被允许，就出价”，我们把大量的逻辑判断都隐藏起来了，整个`action`只剩下两个`unless`。"Talk, don't ask!" 减少逻辑判断是保持代码可读性的有效方法之一，尽量避免`if else`的深度嵌套。
 
-再者，为什么要传一个block给`bid_if_allow`呢？因为在`bid`的过程中，会产生一条出价记录是我们最直观能想到，所以创建记录的部分出现在这里是可以被接受的，而像资金冻结，如果也出现在这里，则有违背单一责任之嫌。但这不是主要原因。原因是我需要返回一个http头部。`head, respond_to`都是controller中的方法，只有在controller中才能调用。当然这些方法都在module中，我可以将其include到`BidderDecorator`中，但是不合适。controller就像一个服务生，他知道客户点的菜要交给哪位厨师去做，但端盘子送菜还得服务生自己来。这就是所谓的"fat model, skinny controller"了，服务生只负责接受客户点菜，让后厨做菜，然后给端上来。你要西餐，中餐，满汉全席，厨师负责。所以如果`bid_if_allow`能够直接返回http头部的话，那就责任混乱了！另外，注意到block中并没有用到`create!`这样会抛错的方法，而是让他在一旦记录创建失败时返回头部之后直接`return`，`bid`结束。这也就是为什么一定要让block在资金冻结前执行的原因，如果顺序相反，有可能成功冻结资金，但记录创建失败，而此时资金冻结不会回滚，因为上文提到过ActiveRecord的transaction是不支持多model的。
+再者，为什么要传一个block给`bid_if_allow`呢？因为在`bid`的过程中，会产生一条出价记录是我们最直观能想到，所以创建记录的部分出现在这里是可以被接受的(_注：仅仅是能被接受，不是好_)，而像资金冻结，如果也出现在这里，则有违背单一责任之嫌。但这不是主要原因。原因是我需要返回一个http头部。`head, respond_to`都是controller中的方法，只有在controller中才能调用。这里也可以不用block，然后返回字符串，但是这又会导致在controller中判断，然后才能确定头部返回，不好。当然这些方法都在module中，我可以将其include到`BidderDecorator`中，但是不合适。controller就像一个服务生，他知道客户点的菜要交给哪位厨师去做，但端盘子送菜还得服务生自己来。这就是所谓的"fat model, skinny controller"了，服务生只负责接受客户点菜，让后厨做菜，然后给端上来。你要西餐，中餐，满汉全席，厨师负责。所以如果`bid_if_allow`能够直接返回http头部的话，那就责任混乱了！另外，注意到block中并没有用到`create!`这样会抛错的方法，而是让他在一旦记录创建失败时返回头部之后直接`return`，`bid`结束。这也就是为什么一定要让block在资金冻结前执行的原因，如果顺序相反，有可能成功冻结资金，但记录创建失败，而此时资金冻结不会回滚，<s>因为上文提到过ActiveRecord的transaction是不支持多model的。</s> **实际上是因为没有抛错来触发回滚。**
 
 接着上面服务生和厨师的比喻，说说为什么不把拍卖部分的功能直接做到User下。想想，你开的是一家中餐馆，这几天突然有一两位客人嚷着要吃西餐，你会直接请几位做西餐的大厨吗？而我们这种做法，就好比请了个part-time。等到有一天你的西餐生意比较红火时，你可能直接开一家西餐厅了。所以，到时我们可能就有一个拍卖子系统了。到时，我可以非常方便的把我的`BidderDecorator`搬到新系统中，而且测试也只需要做少量的修改就能通过。
 
@@ -212,3 +214,4 @@ controller"!先要在一个action里面解决这3件事，而且还要保证事�
 [1]: /RubyOnRails/2012/03/30/homeless-code-1/
 [2]: http://en.wikipedia.org/wiki/Data,_context_and_interaction
 [3]: https://github.com/jcasimir/draper
+[4]: http://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html
