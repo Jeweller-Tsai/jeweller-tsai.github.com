@@ -211,7 +211,7 @@ controller"!先要在一个action里面解决这3件事，而且还要保证事�
 ###总结
 
 连续这两篇文章，算是我平时工作思考的总结。粗浅的谈论了一点设计模式，只为抛砖引玉。其实，我个人认为，设计模式不是架构师的专利，而是每一个程序员要都应该经常看和经常思考的。借鉴别人总结出来的经验，遇到合适的场景时，用来解决实际问题。即便你不能站在整个系统的高度来思考问题，你仍然能够在细微之处用到这些优秀的想法，帮助你写出更好的代码。
-[1]: /RubyOnRails/2012/03/30/homeless-code-1/
+[1]: /RubyOnRails/2012/03/29/homeless-code-1/
 [2]: http://en.wikipedia.org/wiki/Data,_context_and_interaction
 [3]: https://github.com/jcasimir/draper
 [4]: http://api.rubyonrails.org/classes/ActiveRecord/Transactions/ClassMethods.html
