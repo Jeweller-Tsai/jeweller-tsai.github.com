@@ -22,7 +22,7 @@ controller"被视为金科玉律，广为Rubyists所知和推崇。系统慢慢�
 
   #或许你喜欢用原来的名字
 
-  alias :old_created_at :created_at
+  alias old_created_at created_at
 
   def created_at
     old_created_at.strftime('%Y-%m-%d %H:%M:%S')
