@@ -1,3 +1,4 @@
 pygments: true
 markdown: rdiscount
 permalink: pretty
+lsi: true
