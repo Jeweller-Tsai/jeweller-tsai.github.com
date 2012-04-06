@@ -40,6 +40,11 @@ controller"被视为金科玉律，广为Rubyists所知和推崇。系统慢慢�
 要不然你要写在哪？写helper吗，helper一点也不OO阿!不用，Rails已经为我们提供好了方法！
 
 {% highlight ruby %}
+  # 注：如果不是标准时区，比如东八区，
+  # 调用这个方法后，时间会自动减去8小时
+  # 这里仅仅是为举例子而已
+  # 最近才发现有这个问题
+  # 所以还是建议上面的方法
   post.created_at.to_formatted_s(:db)
 {% endhighlight %}
 

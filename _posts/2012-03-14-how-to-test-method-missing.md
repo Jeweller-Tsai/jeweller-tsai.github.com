@@ -66,7 +66,7 @@ tags: ruby meta-programming
 下面为重构后代码：
 
 {% highlight ruby linenos %}
-  def method_missing(m, *arg)
+  def method_missing(m, *args, &block)
     matches = /(\w+)\_orders/.match(m.to_s)
     if matches
       orders.where(state_cd: RightnowOms::Order::STATUS.index(matches[1].to_sym))
@@ -125,6 +125,45 @@ WOW!测试也变得相当简洁了！这里用了[Object#instance_variable_set][
 perfect"的原则，先实现功能，但功能实现了之后，如果有时间，应该回过来来看看自己写的代码，能重构则重构，这样才能写出有质量的代码，才能不断的提高自己。
 
 即便是Red,Green,Refactor这个circle有时的确很烦人，很费时，但确实有其价值！
+
+###更新
+
+`method_missing`看起来相当不错，但也带来了一定的效率问题。为此，可以尝试在捕获到这个方法的同时，动态的定义这个方法，以提高效率。以下是重构后的代码：
+
+{% highlight ruby linenos %}
+  def method_missing(m, *args, &block)
+    matches = /(\w+)\_orders/.match(m.to_s)
+    if matches
+      state = RightnowOms::Order::STATUS.index(matches[1].to_sym)
+      # define_method是属于Class类的私有方法，必须用send调用
+      self.class.send(:define_method, matches[0].to_sym) do
+        self.orders.where(state_cd: state)
+      end
+      orders.where(state_cd: state)
+    else
+      super
+    end
+  end
+{% endhighlight %}
+
+这样做的好处是，一旦某个被`method_missing`捕获,并符合条件，此时我们动态的定义这个方法，以后当我们再次调用时，此方法就想其他普通方法一样，直接被调用，而不再触发`method_missing`，从而提高了性能。
+
+下面是对应的测试：
+
+{% highlight ruby linenos %}
+  # 本段测试应位于上文测试中的循环里
+  context 'after calling method_missing' do
+    before { @user.send("#{s}_orders") }
+    it 'should not hit method_missing again' do
+      @user.should_not_receive(:method_missing)
+
+      # 由于上文把subject定义成：
+      # subject { @user.send("#{s}_orders") }
+      # 这样是写少了一点点代码，可是带来的问题是可读性较差
+      subject
+    end
+  end
+{% endhighlight %}
 
 [1]:/RubyOnRails/2011/10/20/method-missing-and-delegation/
 [2]:/RubyOnRails/2011/10/23/module-eval-and-delegation/
