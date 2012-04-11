@@ -72,6 +72,12 @@ html, body {
 .post {
   padding: 20px;
 }
+.post p {
+  text-indent: 2em;
+  font-size: 14px;
+  line-height: 1.6em;
+  padding-top:0.5em;
+}
 .post .tags {
   margin: 0 20px 20px 0;
 }
@@ -96,9 +102,18 @@ html, body {
 .content .new-article {
   margin-bottom: 40px;
   border-bottom: thin dotted #CCC;
+  padding: 10px;
 }
 .content .new-article .article-title {
   margin-bottom: 10px;
+}
+.content .new-article .article-body {
+  padding: 10px;
+}
+.content .new-article .article-body p {
+  font-size: 14px;
+  line-height: 1.6em;
+  padding-top:0.2em;
 }
 .clear {
   clear: both;
